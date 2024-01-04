@@ -51,6 +51,10 @@ class TopicService {
   async searchTopics(keyword: string) {
     return TopicModel.queryByKeyword(keyword);
   }
+
+  async duplicateTopic(id: string) {
+    return TopicModel.duplicateTopic(id);
+  }
 }
 
 export const topicService = new TopicService();

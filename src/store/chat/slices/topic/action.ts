@@ -31,6 +31,7 @@ export interface ChatTopicAction {
   removeUnstarredTopic: () => void;
   saveToTopic: () => Promise<string | undefined>;
   autoRenameTopicTitle: (id: string) => Promise<void>;
+  duplicateTopic: (id: string) => Promise<void>;
   summaryTopicTitle: (topicId: string, messages: ChatMessage[]) => Promise<void>;
   switchTopic: (id?: string) => Promise<void>;
   updateTopicTitleInSummary: (id: string, title: string) => void;
@@ -79,6 +80,14 @@ export const chatTopic: StateCreator<
 
     return topicId;
   },
+  duplicateTopic: async (id) => {
+    const { refreshTopic, switchTopic } = get();
+
+    const newTopicId = await topicService.duplicateTopic(id);
+    await refreshTopic();
+
+    switchTopic(newTopicId);
+  },
   // update
   summaryTopicTitle: async (topicId, messages) => {
     const { updateTopicTitleInSummary, updateTopicLoading, refreshTopic } = get();
@@ -120,7 +129,7 @@ export const chatTopic: StateCreator<
   autoRenameTopicTitle: async (id) => {
     const { activeId: sessionId, summaryTopicTitle } = get();
     const messages = await messageService.getMessages(sessionId, id);
-    console.log(messages);
+
     await summaryTopicTitle(id, messages);
   },
   // query

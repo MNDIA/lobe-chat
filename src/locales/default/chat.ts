@@ -58,6 +58,8 @@ export default {
   topic: {
     actions: {
       autoRename: '智能重命名',
+      duplicate: '创建拷贝',
+      export: '导出话题',
     },
     confirmRemoveAll: '即将删除全部话题，删除后将不可恢复，请谨慎操作。',
     confirmRemoveTopic: '即将删除该话题，删除后将不可恢复，请谨慎操作。',
